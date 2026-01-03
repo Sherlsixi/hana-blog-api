@@ -8,8 +8,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/hello', function () {
-    return ['message' => 'Hello Laravel12'];
-});
+Route::apiResource('posts', PostController::class);
 
-Route::apiResource('posts',PostController::class);
+require __DIR__.'/auth.php';
