@@ -15,8 +15,14 @@ class PostController extends Controller
      */
     public function index()
     {
-        $user = request()->user();
-        $post = $user->posts()->with('author')->paginate();
+        $post = Post::with('author')->paginate();
+
+        return PostResource::collection($post);
+    }
+
+    public function myPosts()
+    {
+        $post = Auth::user()->posts()->with('author')->get();
 
         return PostResource::collection($post);
     }
@@ -39,7 +45,6 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        abort_if(Auth::id() !== $post->author_id, 403, 'Access Forbidden');
 
         return new PostResource($post);
     }

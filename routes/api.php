@@ -10,7 +10,14 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::apiResource('posts', PostController::class);
+    Route::group(['prefix' => 'posts'], function () {
+        Route::get('/', [PostController::class, 'index']);
+        Route::get('/myposts', [PostController::class, 'myPosts']);
+        Route::post('/', [PostController::class, 'store']);
+        Route::get('/{post}', [PostController::class, 'show']);
+        Route::put('/{post}', [PostController::class, 'update']);
+        Route::delete('/{post}', [PostController::class, 'destroy']);
+    });
     Route::apiResource('image-generations', ImageGenerationController::class)->only(['index', 'store']);
 
 });
